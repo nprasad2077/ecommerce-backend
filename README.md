@@ -1,2 +1,1 @@
-# ecommerce-backend
-Django REST Backend for E-commerce Project.
+# Django REST Backend for E-commerce Project (In progress 😇)
