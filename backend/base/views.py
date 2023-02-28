@@ -6,7 +6,25 @@ from rest_framework.response import Response
 from .models import Product
 from .serializers import ProductSerializer
 
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
+
 # Create your views here.
+
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+
+        # Add custom claims
+        token['username'] = user.username
+        token['message'] = 'hello'
+        # ...
+
+        return token
+    
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
 
 @api_view(['GET'])
 def getRoutes(request):
@@ -35,12 +53,3 @@ def getProduct(request, pk):
     product = Product.objects.get(_id=pk)
     serializer = ProductSerializer(product, many=False)
     return Response(serializer.data)
-
-
-# def allowed_methods(self):
-#     """
-#     Return the list of allowed HTTP methods, uppercased.
-#     """
-#     self.http_method_names.append("post")
-#     return [method.upper() for method in self.http_method_names
-#             if hasattr(self, method)]
