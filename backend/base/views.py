@@ -35,3 +35,12 @@ def getProduct(request, pk):
     product = Product.objects.get(_id=pk)
     serializer = ProductSerializer(product, many=False)
     return Response(serializer.data)
+
+
+# def allowed_methods(self):
+#     """
+#     Return the list of allowed HTTP methods, uppercased.
+#     """
+#     self.http_method_names.append("post")
+#     return [method.upper() for method in self.http_method_names
+#             if hasattr(self, method)]
