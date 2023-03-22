@@ -14,6 +14,8 @@ from rest_framework import status
 
 @api_view(['GET'])
 def getProducts(request):
+    query = request.query_params.get('keyword')
+    print(query)
     products = Product.objects.all()
     serializer = ProductSerializer(products, many=True)
     return Response(serializer.data)
@@ -90,12 +92,12 @@ def createProductReview(request, pk):
     alreadyExists = product.review_set.filter(user=user).exists()
 
     if alreadyExists:
-        content = {'details': 'product already reviewred'}
+        content = {'detail': 'product already reviewed'}
         return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
     #2 - No Rating/0
     elif data['rating'] == 0:
-        content = {'datails': 'Please select a rating'}
+        content = {'datail': 'Please select a rating'}
         return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
     #3 -  Create review
