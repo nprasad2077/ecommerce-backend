@@ -10,6 +10,11 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.contrib.auth.hashers import make_password
 from rest_framework import status
+from django.shortcuts import render
+
+def react_app(request):
+    return render(request, 'index.html')
+
 
 
 

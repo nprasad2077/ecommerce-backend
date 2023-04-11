@@ -18,14 +18,22 @@ from django.urls import path, include
 
 from django.conf import settings
 from django.conf.urls.static import static
+from base.react_views import react_app
+from django.views.static import serve
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('api/', include('base.urls')),
+    path('', react_app, name='react-app'),
     path('api/products/', include('base.urls.product_urls')),
     path('api/users/', include('base.urls.user_urls')),
     path('api/orders/', include('base.urls.order_urls')),
 
 ]
+
+if settings.DEBUG:
+    urlpatterns += [
+        path("assets/<path:path>", serve, {"document_root": settings.STATICFILES_DIRS[0] + "/assets"}),
+    ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
